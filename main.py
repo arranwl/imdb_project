@@ -51,10 +51,10 @@ st.text("")
 #Information
 with st.expander("About the project and creator"):
     st.write("This project was created from data made available by IMDb. The model used was a Linear"
-             "Regression with Ridge Regularization. If you'd like to see the code that created the model"
-             "and the UI, please click [here](https://github.com/arranwl/imdb_project)")
+             " Regression with Ridge Regularization. If you'd like to see the code that created the model"
+             " and the UI, please click [here](https://github.com/arranwl/imdb_project)")
     st.write("About the creator:"
-             "Arran Wass-Little is a third year student at the University of Florida undertaking a double"
+             " Arran Wass-Little is a third year student at the University of Florida undertaking a double"
              " major in Economics and Data Science. He's passionate about understanding the world through data"
              " whether through building tools or completing valuable research. If you'd like to contact him,"
              " please reach out to him at arranwasslittle@ufl.edu")
