@@ -25,8 +25,7 @@ if st.button('Predict'):
     coefs = own.get_coefs(people)
     st.text("")
     st.subheader('Coefficients of each peron:')
-    with st.container():
-        for i in range(len(people)):
-            st.text('-' + people[i] + ': ' + str(round(coefs[i], 3)))
+    for i in range(len(people)):
+        st.text('-' + people[i] + ': ' + str(round(coefs[i], 3)))
 
 
