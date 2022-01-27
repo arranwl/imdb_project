@@ -17,7 +17,16 @@ if st.button('Predict'):
     indices = own.get_list_indices(people)
     input = own.generate_input_data(indices)
     prediction = own.predict(input)
-    st.write('Predicted IMDb Score:', str(round(prediction, 2)))
-
+    if prediction>10:
+        prediction = 10
+    st.text("")
+    test = str(round(prediction, 2))
+    st.subheader('Predicted IMDb Score: ' + test)
+    coefs = own.get_coefs(people)
+    st.text("")
+    st.subheader('Coefficients of each peron:')
+    with st.container():
+        for i in range(len(people)):
+            st.text('-' + people[i] + ': ' + str(round(coefs[i], 3)))
 
 

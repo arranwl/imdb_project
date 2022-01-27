@@ -25,3 +25,8 @@ def predict(modelInput):
     prediction = model.predict(modelInput)
     return prediction[0]
 
+def get_coefs(listNames):
+    indices = get_list_indices(listNames)
+    coefs = [model.coef_[index] for index in indices]
+    return coefs
+
