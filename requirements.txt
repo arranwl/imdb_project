@@ -1,6 +1,5 @@
 numpy==1.20.1
 streamlit==0.76.0
 pandas==1.2.3
-scikit-learn
-pickle
+scikit-learn==1.01
 own_functions
