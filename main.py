@@ -3,7 +3,9 @@ import pandas as pd
 import streamlit as st
 import own_functions as own
 
-peopleData = pd.read_csv('https://raw.githubusercontent.com/arranwl/imdb_project/main/clean_data/personScore.csv', index_col=0)
+
+
+peopleData = pd.read_csv('clean_data/personScore.csv')
 
 st.title('IMDb Prediction tool')
 st.subheader('Welcome to the IMDb Prediction tool! Here you can input actors, actresses, '
