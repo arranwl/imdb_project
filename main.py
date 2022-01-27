@@ -11,7 +11,7 @@ st.title('IMDb Prediction tool')
 st.subheader('Welcome to the IMDb Prediction tool! Here you can input actors, actresses, '
            'and directors in an equation that returns the predicted IMDb score if it were a real movie.')
 
-people = st.multiselect(label='What person would you like?', options=peopleData['primaryName'], help='Feel free to type to find your person!')
+people = st.multiselect(label='What person would you like?', options=peopleData['primaryName'])
 
 if st.button('Predict'):
     indices = own.get_list_indices(people)
