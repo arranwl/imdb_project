@@ -11,7 +11,7 @@ st.subheader('Welcome to the IMDb Prediction tool! Here you can input actors, ac
            'and directors in an equation that returns the predicted IMDb score if it were a real movie.')
 
 #Search and Select input
-people = st.multiselect(label='What person would you like?', options=peopleData['primaryName'])
+people = st.multiselect(label='What person(s) would you like?', options=peopleData['primaryName'], help='Type to search and add as many people as you would like!')
 
 #When button is clicked it turns true and everything below happens
 if st.button('Predict'):
