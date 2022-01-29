@@ -95,109 +95,76 @@ def createModel():
     personScore['predictRating'] = data.merge(predictions[['tconst','predictRating']], how='inner', on='tconst').groupby('nconst').mean().reset_index()['predictRating']
     personScore.to_csv('clean_data/personScore.csv', index=False)
 
+
+# graphing functions
+def plotScatter(dataset, xinput, yinput, xlabel, ylabel, title):
+    plt.figure(figsize=(12, 8), dpi=100)
+    sns.scatterplot(x=dataset[xinput], y=dataset[yinput])
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.savefig('graphs/' + title)
+
+def plotHist(dataset, xinput, xlabel, title):
+    plt.figure(figsize=(12, 8), dpi=100)
+    sns.histplot(x=dataset[xinput])
+    plt.xlabel(xlabel)
+    plt.ylabel('Frequency')
+    plt.savefig('graphs/' + title)
+
+
 def analysis():
     df = pd.read_csv('clean_data/masterdf.csv')
     predData = pd.read_csv('clean_data/predictedData.csv')
     personScore = pd.read_csv('clean_data/personScore.csv')
-    pSnormal = personScore[abs(personScore['coefficients']) < 1000000000000]
-    with open('model.pkl', 'rb') as file:  
+    with open('model.pkl', 'rb') as file:
         model = pickle.load(file)
-    
+
     n = predData.shape[0]
     p = personScore.shape[0]
     r2 = r2_score(predData['averageRating'], predData['predictRating'])
-    r2a = 1 - ((1-r2)*(n-1))/(n-p-1)
+    r2a = 1 - ((1 - r2) * (n - 1)) / (n - p - 1)
     print('R^2 adjusted', r2a)
     print('Mean Square Error', mean_squared_error(predData['averageRating'], predData['predictRating']))
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.scatterplot(x=df['numVotes'],y=df['averageRating'], alpha=0.1)
-    plt.xlabel('Number of Votes')
-    plt.ylabel('Average Rating of Movie')
-    plt.savefig('graphs/graph_01')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.histplot(df['averageRating'], binwidth=0.1)
-    plt.xlabel('Average Rating of Movie')
-    plt.ylabel('Frequency')
-    plt.savefig('graphs/graph_02')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.histplot(df['nconst'].value_counts(), bins=20)
-    plt.xlabel('Number of Appearances in Productions')
-    plt.ylabel('Frequency')
-    plt.savefig('graphs/graph_03')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    plt.plot(range(1,10), range(1,10), 'k')
-    sns.scatterplot(x=predData['averageRating'],y=predData['predictRating'])
-    plt.xlabel('Average Rating of Movie')
-    plt.ylabel('Predicted Average Rating of Movie')
-    plt.savefig('graphs/graph_04')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.histplot(predData['predictRating'], binwidth=0.1)
-    plt.xlabel('Predicted Rating of Movie')
-    plt.ylabel('Frequency')
-    plt.savefig('graphs/graph_05')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
+
+    plotScatter(df, 'numVotes', 'averageRating', 'Number of Votes', 'Average Rating of Mobie', 'graph_01')
+
+    plotHist(df, 'averageRating', 'Average Rating of Movie', 'graph_02')
+
+    plotHist(pd.DataFrame(df.value_counts('nconst')), 0, 'Number of Appearances in Productions', 'graph_03')
+
+    plotScatter(predData, 'averageRating', 'predictRating', 'Average Rating of Movie',
+                'Predicted Average Rating of Mobie', 'graph_04')
+
+    plotHist(predData, 'predictRating', 'Predicted Rating of Movie', 'graph_05')
+
+    plt.figure(figsize=(12, 8), dpi=100)
     sns.histplot(predData['averageRating'], binwidth=0.1, color='r')
     sns.histplot(predData['predictRating'], binwidth=0.1)
     plt.xlabel('Predicted Rating of Movie (blue) vs Actual Average Rating of Movie (red)')
     plt.ylabel('Frequency')
     plt.savefig('graphs/graph_06')
     plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.scatterplot(x=predData.index,y=predData['residuals'])
+
+    plt.figure(figsize=(12, 8), dpi=100)
+    sns.scatterplot(x=predData.index, y=predData['residuals'])
     plt.xlabel('Residual Value')
     plt.ylabel('Residual Index')
     plt.savefig('graphs/graph_07')
     plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.histplot(predData['residuals'])
-    plt.xlabel('Residuals')
-    plt.ylabel('Frequency')
-    plt.savefig('graphs/graph_08')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.scatterplot(x=pSnormal['averageRating'],y=pSnormal['coefficients'])
-    plt.xlabel('Average Rating of Person')
-    plt.ylabel('Coefficients')
-    plt.savefig('graphs/graph_09')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.scatterplot(x=pSnormal['count'],y=pSnormal['coefficients'])
-    plt.xlabel('Number of Productions with Person')
-    plt.ylabel('Coefficients')
-    plt.savefig('graphs/graph_10')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    sns.scatterplot(x=pSnormal['count'],y=pSnormal['averageRating'])
-    plt.xlabel('Number of Productions with Person')
-    plt.ylabel('Average Rating')
-    plt.savefig('graphs/graph_11')
-    plt.show()
-    
-    plt.figure(figsize=(12,8), dpi=100)
-    plt.plot(range(1,10), range(1,10), 'k')
-    sns.scatterplot(x=pSnormal['averageRating'],y=pSnormal['predictRating'])
-    plt.xlabel('Average Rating of person')
-    plt.ylabel('Predicted Average Rating of Person')
-    plt.savefig('graphs/graph_12')
-    plt.show()
-    
-    sns.pairplot(pSnormal[['averageRating','coefficients','count','predictRating']])
+
+    plotHist(predData, 'residuals', 'Residuals', 'graph_08')
+
+    plotScatter(personScore, 'averageRating', 'coefficients', 'Average Rating of Person', 'Coefficients', 'graph_09')
+
+    plotScatter(personScore, 'count', 'coefficients', 'Number of Productions with Person', 'Coefficients', 'graph_10')
+
+    plotScatter(personScore, 'count', 'averageRating', 'Number of Productions with Person', 'Average Rating',
+                'graph_11')
+
+    plotScatter(personScore, 'averageRating', 'predictRating', 'Average Rating of Person',
+                'Predicted Average Rating of Person', 'graph_12')
+
+    sns.pairplot(personScore[['averageRating', 'coefficients', 'count', 'predictRating']])
     plt.savefig('graphs/graph_13')
     plt.show()
 
