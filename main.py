@@ -32,21 +32,8 @@ if st.button('Predict'):
         st.text('-' + people[i] + ': ' + str(round(coefs[i], 3)))
 
 #spacing
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
-st.text("")
+for i in range(15):
+    st.text("")
 
 #Information
 with st.expander("About the project and creator"):
